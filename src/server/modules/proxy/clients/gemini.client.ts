@@ -27,7 +27,8 @@ export class GeminiClient {
         this.logger.error(`Gemini Stream API Error: ${error.message}`);
         throw new Error(error.response?.data?.error?.message || error.message);
       }
-      throw error;
+      // Re-throw as clean Error to avoid circular reference issues
+      throw error instanceof Error ? new Error(error.message) : new Error(String(error));
     }
   }
 
@@ -50,11 +51,12 @@ export class GeminiClient {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         this.logger.error(
-          `Gemini API Error: ${error.message} - ${JSON.stringify(error.response?.data)}`,
+          `Gemini API Error: ${error.message} - ${this.safeStringify(error.response?.data)}`,
         );
         throw new Error(error.response?.data?.error?.message || error.message);
       }
-      throw error;
+      // Re-throw as clean Error to avoid circular reference issues
+      throw error instanceof Error ? new Error(error.message) : new Error(String(error));
     }
   }
 
@@ -77,7 +79,6 @@ export class GeminiClient {
       return response.data;
     } catch (error) {
       this.handleAxiosError(error, 'StreamInternal');
-      throw error;
     }
   }
 
@@ -96,17 +97,38 @@ export class GeminiClient {
       return response.data.response || response.data;
     } catch (error) {
       this.handleAxiosError(error, 'GenerateInternal');
-      throw error;
     }
   }
 
   private handleAxiosError(error: any, context: string) {
     if (axios.isAxiosError(error)) {
       this.logger.error(
-        `Gemini ${context} API Error: ${error.message} - ${JSON.stringify(error.response?.data)}`,
+        `Gemini ${context} API Error: ${error.message} - ${this.safeStringify(error.response?.data)}`,
       );
       throw new Error(error.response?.data?.error?.message || error.message);
     }
-    throw error;
+    // Re-throw as clean Error to avoid circular reference issues
+    throw error instanceof Error ? new Error(error.message) : new Error(String(error));
+  }
+
+  /**
+   * Safely stringify an object, handling circular references
+   */
+  private safeStringify(obj: unknown): string {
+    if (obj === undefined || obj === null) {
+      return String(obj);
+    }
+    try {
+      const seen = new WeakSet();
+      return JSON.stringify(obj, (key, value) => {
+        if (typeof value === 'object' && value !== null) {
+          if (seen.has(value)) return '[Circular]';
+          seen.add(value);
+        }
+        return value;
+      });
+    } catch {
+      return '[Unserializable]';
+    }
   }
 }

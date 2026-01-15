@@ -217,7 +217,11 @@ export class ProxyService {
         subscriber.complete();
       });
 
-      upstreamStream.on('error', (err: any) => subscriber.error(err));
+      upstreamStream.on('error', (err: any) => {
+        // Convert to clean Error to avoid circular reference issues (socket objects)
+        const cleanError = err instanceof Error ? new Error(err.message) : new Error(String(err));
+        subscriber.error(cleanError);
+      });
     });
   }
 
@@ -372,7 +376,9 @@ export class ProxyService {
       });
 
       upstreamStream.on('error', (err: any) => {
-        subscriber.error(err);
+        // Convert to clean Error to avoid circular reference issues (socket objects)
+        const cleanError = err instanceof Error ? new Error(err.message) : new Error(String(err));
+        subscriber.error(cleanError);
       });
     });
   }

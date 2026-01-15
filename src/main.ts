@@ -20,9 +20,28 @@ import { ConfigManager } from './ipc/config/manager';
 
 const packetLogPath = path.join(app.getPath('userData'), 'orpc_packets.log');
 
+/**
+ * Safely stringify an object, handling circular references
+ */
+function safeStringifyPacket(obj: unknown): string {
+  const seen = new WeakSet();
+  return JSON.stringify(obj, (key, value) => {
+    if (typeof value === 'object' && value !== null) {
+      if (seen.has(value)) {
+        return '[Circular]';
+      }
+      seen.add(value);
+    }
+    return value;
+  });
+}
+
 function logPacket(data: any) {
   try {
-    fs.appendFileSync(packetLogPath, `[${new Date().toISOString()}] ${JSON.stringify(data)}\n`);
+    fs.appendFileSync(
+      packetLogPath,
+      `[${new Date().toISOString()}] ${safeStringifyPacket(data)}\n`,
+    );
   } catch (e) {
     if (e instanceof Error) {
       console.error(e.message);

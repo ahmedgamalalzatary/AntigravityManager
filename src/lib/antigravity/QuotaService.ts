@@ -126,7 +126,12 @@ export class QuotaService {
       } catch (error: any) {
         if (axios.isAxiosError(error)) {
           const status = error.response?.status;
-          const text = JSON.stringify(error.response?.data || '');
+          let text = '';
+          try {
+            text = JSON.stringify(error.response?.data || '');
+          } catch {
+            text = '[Unable to serialize response data]';
+          }
 
           // ✅ Handle 403 Forbidden specifically - return immediately, do not retry
           if (status === 403) {

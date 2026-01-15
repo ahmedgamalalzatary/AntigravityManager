@@ -4,6 +4,33 @@ import { getAgentDir } from './paths';
 
 export type LogLevel = 'info' | 'warn' | 'error' | 'debug';
 
+/**
+ * Safely stringify an object, handling circular references
+ * This prevents "Converting circular structure to JSON" errors
+ * when logging objects like axios errors that contain socket references
+ */
+function safeStringify(obj: unknown): string {
+  const seen = new WeakSet();
+  return JSON.stringify(obj, (key, value) => {
+    // Handle Error objects specially
+    if (value instanceof Error) {
+      return {
+        name: value.name,
+        message: value.message,
+        stack: value.stack,
+      };
+    }
+    // Handle circular references
+    if (typeof value === 'object' && value !== null) {
+      if (seen.has(value)) {
+        return '[Circular]';
+      }
+      seen.add(value);
+    }
+    return value;
+  });
+}
+
 class Logger {
   private logFilePath: string;
 
@@ -22,7 +49,7 @@ class Logger {
   private formatMessage(level: LogLevel, message: string, ...args: unknown[]): string {
     const timestamp = new Date().toISOString();
     const formattedArgs = args
-      .map((arg) => (typeof arg === 'object' ? JSON.stringify(arg) : String(arg)))
+      .map((arg) => (typeof arg === 'object' ? safeStringify(arg) : String(arg)))
       .join(' ');
     return `[${timestamp}] [${level.toUpperCase()}] ${message} ${formattedArgs}`;
   }
