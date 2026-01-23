@@ -5,30 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.3.0-rc.3] - 2026-01-21
+## [0.3.0] - 2026-01-23
+
+### New Features
+
+- Verify Google OAuth code automatically after receipt
+- Add button to open logs folder
+- Add expiration warning for Google OAuth authentication
 
 ### Bug Fixes
 
 - Fixed `state.vscdb` path on Linux to include `User/globalStorage` subdirectory (Fixed [#26](https://github.com/Draculabo/AntigravityManager/issues/26))
-- Improved process detection on macOS/Linux using `find-process` to reliably identify the main application and exclude helper processes(Fixed [#27](https://github.com/Draculabo/AntigravityManager/issues/27))
-
-## [0.3.0-rc.2] - 2026-01-21
-
-### Bug Fixes
-
+- Improved process detection on macOS/Linux using `find-process` to reliably identify the main application and exclude helper processes (Fixed [#27](https://github.com/Draculabo/AntigravityManager/issues/27))
 - Fixed keychain access error on macOS Apple Silicon (M1/M2/M3) by adding arm64 build to CI
-
-## [0.3.0-rc.1] - 2026-01-21
-
-### New Features
-
-- Verify Google OAuth code automatically after receipt ([e927ac9]
-- Add button to open logs folder ([a438070]
-- Add expiration warning for Google OAuth authentication ([f224fea]
 
 ### Maintenance
 
-- Add VS Code settings for auto-formatting and ESLint ([013f329])
+- Add VS Code settings for auto-formatting and ESLint
 
 ## [0.2.2] - 2026-01-19
 
