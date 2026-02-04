@@ -2,6 +2,18 @@
 
 # Changelog
 
+## [0.6.0](https://github.com/Draculabo/AntigravityManager/compare/v0.5.0...v0.6.0) (2026-02-04)
+
+### ✨ Features
+
+*  add cloud reset time UI ([#56](https://github.com/Draculabo/AntigravityManager/issues/56)) ([f6f8069](https://github.com/Draculabo/AntigravityManager/commit/f6f8069ce4673ae7027c6ba248daa18c8b602218))
+* windows install guidance ([#63](https://github.com/Draculabo/AntigravityManager/issues/63)) ([ce71470](https://github.com/Draculabo/AntigravityManager/commit/ce7147025d37648a82f6f6b300502ef4462bfde6))
+
+### 🐛 Bug Fixes
+
+* correct Windows install notice path ([5bda4b1](https://github.com/Draculabo/AntigravityManager/commit/5bda4b19dfc9ce64735cd39600d41a5deefc26ee))
+* **proxy:** route Claude Code CLI requests on /v1/chat/completions to Anthropic handler ([#61](https://github.com/Draculabo/AntigravityManager/issues/61)) ([476d297](https://github.com/Draculabo/AntigravityManager/commit/476d297e4b2dd3015f7ebcbb915b643730816dc6))
+
 ## [0.5.0](https://github.com/Draculabo/AntigravityManager/compare/v0.4.0...v0.5.0) (2026-01-30)
 
 ### ✨ Features
