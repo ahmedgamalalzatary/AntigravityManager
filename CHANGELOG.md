@@ -2,6 +2,21 @@
 
 # Changelog
 
+## [0.8.0](https://github.com/Draculabo/AntigravityManager/compare/v0.7.0...v0.8.0) (2026-02-07)
+
+### ✨ Features
+
+* complete account-bound profile switching and hardening ([#78](https://github.com/Draculabo/AntigravityManager/issues/78)) ([a93c6d0](https://github.com/Draculabo/AntigravityManager/commit/a93c6d0cea5b9904a30234faffe767505f753373))
+
+### 🐛 Bug Fixes
+
+* **ci:** increase Node heap for publish step to prevent macOS OOM ([#76](https://github.com/Draculabo/AntigravityManager/issues/76)) ([ee64179](https://github.com/Draculabo/AntigravityManager/commit/ee641799c27425ceb6d2d6d00a132881bedb1f04))
+* **ci:** make WiX Toolset setup resilient on Windows runners ([#73](https://github.com/Draculabo/AntigravityManager/issues/73)) ([5fe434f](https://github.com/Draculabo/AntigravityManager/commit/5fe434f7050cb8975d65502baeb03b1747e00611))
+
+### 📝 Documentation
+
+* **openspec:** backfill missing proposals ([287e848](https://github.com/Draculabo/AntigravityManager/commit/287e848b3291d2ee43b173802b87491c2a90930d))
+
 ## [0.7.0](https://github.com/Draculabo/AntigravityManager/compare/v0.6.0...v0.7.0) (2026-02-06)
 
 ### ✨ Features
